@@ -7,7 +7,6 @@
 -Xmx31g
 
 -XX:ErrorFile=/var/log/gg/error.log
--XX:LogFile=/var/log/gg/safepoint.log
 
 -Dsun.net.inetaddr.ttl=60
 -Djava.net.preferIPv4Stack=true
@@ -52,6 +51,10 @@
 -XX:+DisableExplicitGC 
 -XX:MaxDirectMemorySize=10G
 
+-XX:+UnlockCommercialFeatures
+-XX:+UnlockDiagnosticVMOptions
+-XX:+UnlockExperimentalVMOptions
+-XX:LogFile=/var/log/gg/safepoint.log
 -Xloggc:/var/log/gg/gc.log
 -XX:GCLogFileSize=100M
 -XX:+UseGCLogFileRotation
@@ -75,6 +78,7 @@
 -XX:+UnlockDiagnosticVMOptions
 -XX:G1LogLevel=finest
 -XX:MaxGCPauseMillis=200
+-XX:AutoBoxCacheMax=32768
 -XX:+PrintReferenceGC
 -XX:+ParallelRefProcEnabled
 -XX:+PrintClassHistogramBeforeFullGC
@@ -83,9 +87,6 @@
 -XX:PrintSafepointStatisticsCount=16
 -XX:+LogVMOutput
 
--XX:+UnlockCommercialFeatures
--XX:+UnlockDiagnosticVMOptions
--XX:+UnlockExperimentalVMOptions
 
 
 

@@ -1,0 +1,153 @@
+##Assertion Error activation
+-ea
+
+####FOR SERVER NODES ONLY (PDS only)#### 
+-server
+
+##Определяется потребностями пользовательского приложения, к которому добавляется фиксированная величина для GG, зависящая от количества используемых физических кешей.
+-Xms31g
+-Xmx31g
+
+-XX:ErrorFile=/var/log/gg/error.log
+
+##dns кеширование
+-Dsun.net.inetaddr.ttl=60
+
+##use ip version 4 for JVM
+-Djava.net.preferIPv4Stack=true
+
+-DIGNITE.DEPLOYMENT.ADDITIONAL.CHECK=true
+-DIGNITE_QUIET=false
+-DIGNITE_START_CACHES_ON_JOIN=true
+-DIGNITE_EXCHANGE_HISTORY_SIZE=100
+
+##Сокращает используемый размер heap при большом количестве объектов за счет уменьшения хранимой истории FFINITY-фунции до 50 последних изменений
+-DIGNITE_AFFINITY_HISTORY_SIZE=50
+
+##System property to hold preload resend timeout for evicted partitions
+-DIGNITE_PRELOAD_RESEND_TIMEOUT=30000
+-DIGNITE_USE_ASYNC_FILE_IO_FACTORY=true
+
+##возможность отключить автоматический snapshot после смены baseline, который происходит при включённом режиме PITR
+-DGG_DISABLE_SNAPSHOT_ON_BASELINE_CHANGE_WITH_ENABLED_PITR=true
+
+##включение функциональности PITR
+-DIGNITE_WAL_LOG_TX_RECORDS=true
+-DIGNITE_WAL_SERIALIZER_VERSION=2
+
+##структура папок для хранения данных будет содержать ConsistentId, для возможности использования нескольких узлов кластера на одной физической машине
+-DIGNITE_DATA_STORAGE_FOLDER_BY_CONSISTENT_ID=true
+
+##Включение функциональности сжатия WAL-архивов в несколько потоков
+-DIGNITE_WAL_COMPRESSOR_WORKER_THREAD_CNT=4
+
+##Включение архивации wal-архивов с уровнем компресии от 1-8
+-DDFLT_WAL_COMPACTION_LEVEL=1
+-DIGNITE_DISABLE_WAL_DURING_REBALANCING=true
+
+##устанавливает размер кэша (в записях), выше которой партиция ребалансируется через WAL (исторический ребаланс)
+-DIGNITE_PDS_WAL_REBALANCE_THRESHOLD=2000000000
+
+##Параметр задаёт максимальный размер истории WAL архива при включённом PITR. На ПРОМ контуре исторический ребаланс у нас отключён намеренно, поэтому IGNITE_PDS_WAL_REBALANCE_THRESHOLD очень большой. 
+-DIGNITE_PDS_MAX_CHECKPOINT_MEMORY_HISTORY_SIZE=2
+
+##В unsafe memory провайдере вводится счет выделенной памяти, при деаллокации не вызывается freeMem
+-DIGNITE_REUSE_MEMORY_ON_DEACTIVATE=true
+
+####RECOMMENDED FOR CLIENT NODESIN CLUSTER####
+##Выставляется тротлинг для реконнекта клиента, что бы клиент не DDOS-ил постоянными переподключениями
+-DCLIENT_THROTTLE_RECONNECT_RESET_TIMEOUT_INTERVAL=120000
+
+##История сообщений о коннекте клиентов по Discovery.
+-DIGNITE_DISCOVERY_CLIENT_RECONNECT_HISTORY_SIZE=50
+
+##Отключает передачу кешовых метрик по Discovery, убыстрение дискавери.
+-DIGNITE_DISCOVERY_DISABLE_CACHE_METRICS_UPDATE=true
+
+##Проинициализировать память нулями при аллокации кучи. Помогает избежать долгие паузы, в случае, когда началась сборка и страницы в памяти не были пре-аллоцированы.
+-XX:+AlwaysPreTouch
+
+##Активируем G1 коллектор
+-XX:+UseG1GC
+
+##Sets the percentage of the heap to use as the minimum for the young generation size
+-XX:G1NewSizePercent=1
+
+##Sets the percentage of the heap to use as the maximum for the young generation size
+-XX:G1MaxNewSizePercent=5
+
+##Параллельные алгоритмы G1 начинают работать при N% заполнении кучи, что позволяет избегать stop-the-world паузы
+-XX:InitiatingHeapOccupancyPercent=30
+
+##Требуется для предотвращения evacuation failures при аллокациях больших обьектов (humongous allocations). Оптимальное значение зависит от максимального аллоцируемого размера объекта и выбирается опытным путем в ходе работы приложения.          
+-XX:G1HeapRegionSize=8m   
+
+##Делаем сборку в YoungGen перед Full GC. Может ускорить время Full GC.       
+-XX:+ScavengeBeforeFullGC
+
+##Вызовы System.gc() из кода или какой-либо утилиты, не будут приводить к stop-the-world паузам.
+-XX:+DisableExplicitGC 
+
+##Задает максимальный общий размер New I/O direct-buffer (пакет java.nio)
+-XX:MaxDirectMemorySize=10G
+
+
+
+##Сбор логов и отладочной информации.
+-XX:+UnlockCommercialFeatures
+-XX:+UnlockDiagnosticVMOptions
+-XX:+UnlockExperimentalVMOptions
+-XX:LogFile=/var/log/gg/safepoint.log
+-Xloggc:/var/log/gg/gc.log
+-XX:GCLogFileSize=100M
+-XX:+UseGCLogFileRotation
+-XX:NumberOfGCLogFiles=10
+-XX:+PrintGC
+-XX:+PrintGCDetails
+-XX:+PrintGCDateStamps
+-XX:+PrintGCTimeStamps
+-XX:+PrintFlagsFinal
+-XX:+PrintGCApplicationStoppedTime
+-XX:+PrintAdaptiveSizePolicy
+-XX:+PrintTenuringDistribution
+-XX:+TraceMetadataHumongousAllocation
+-XX:+G1TraceEagerReclaimHumongousObjects
+
+-XX:OnOutOfMemoryError='kill -3 %p; sleep 2; kill -9 %p'
+-XX:HeapDumpPath=/var/log/gg/gc/heap
+
+##Settings for FlightRecorder. Essential download profile file env_profiling.jfc for full JFR https://drive.google.com/file/d/0B1vbuaA-JViuT2JHZEo1eXNxNGM/view?pli=1 
+-XX:+FlightRecorder
+
+-XX:G1LogLevel=finest
+
+##Настройка максимального значения GC паузы в мс
+-XX:MaxGCPauseMillis=200
+-XX:+PrintReferenceGC
+
+##позволит анализировать причины столь длительного Ref Proc
+-XX:+ParallelRefProcEnabled
+
+##Print a class histogram before and after any major stop-world GC
+-XX:+PrintClassHistogramBeforeFullGC    
+-XX:+PrintClassHistogramAfterFullGC
+
+##Print statistics about safepoint synchronization to LogFile (add this after -XX:+UnlockDiagnosticVMOptionsAdd and next to -XX:LogFile as they are dependent.)
+-XX:+PrintSafepointStatistics
+-XX:PrintSafepointStatisticsCount=16
+-XX:+LogVMOutput
+
+##Увеличить кеш для Integer через параметр виртуальной машины 
+-XX:AutoBoxCacheMax=32768
+
+
+
+
+
+
+
+
+
+
+
+
