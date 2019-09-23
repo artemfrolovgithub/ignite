@@ -1,0 +1,6 @@
+*    hard nproc  300000
+*    soft nproc  300000
+*    hard nofile 1500000
+*    soft nofile 1500000
+root hard nofile 300000
+root soft nofile 300000

@@ -1,6 +1,6 @@
 -ea
 
-##FOR SERVER NODES ONLY (Persistence)
+## ! FOR SERVER NODES ONLY (With persistence data) !
 -server
 
 -Xms31g
