@@ -64,6 +64,9 @@
 ##Отключает передачу кешовых метрик по Discovery, убыстрение дискавери.
 -DIGNITE_DISCOVERY_DISABLE_CACHE_METRICS_UPDATE=true
 
+## NOT print out system properties in log that can contain sensitive data.
+-DIGNITE_TO_STRING_INCLUDE_SENSITIVE=false
+
 ##Проинициализировать память нулями при аллокации кучи. Помогает избежать долгие паузы, в случае, когда началась сборка и страницы в памяти не были пре-аллоцированы.
 -XX:+AlwaysPreTouch
 
@@ -88,10 +91,8 @@
 ##Вызовы System.gc() из кода или какой-либо утилиты, не будут приводить к stop-the-world паузам.
 -XX:+DisableExplicitGC 
 
-##Задает максимальный общий размер New I/O direct-buffer (пакет java.nio)
--XX:MaxDirectMemorySize=10G
-
-
+## NOT RECOMMENDED FROM 2019-09-25. Задает максимальный общий размер New I/O direct-buffer (пакет java.nio)
+## -XX:MaxDirectMemorySize=10G
 
 ##Сбор логов и отладочной информации.
 -XX:+UnlockCommercialFeatures
