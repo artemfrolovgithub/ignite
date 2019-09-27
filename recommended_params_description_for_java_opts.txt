@@ -115,6 +115,12 @@
 -XX:+G1TraceEagerReclaimHumongousObjects
 
 -XX:OnOutOfMemoryError='kill -3 %p; sleep 2; kill -9 %p'
+
+## Остановка приложения при событии OutOfMemoryError
+-XX:+ExitOnOutOfMemoryError
+
+## Снятие HeapDump при событии OutOfMemoryError
+-XX:+HeapDumpOnOutOfMemoryError
 -XX:HeapDumpPath=/var/log/gg/gc/heap
 
 ##Settings for FlightRecorder. Essential download profile file env_profiling.jfc for full JFR https://drive.google.com/file/d/0B1vbuaA-JViuT2JHZEo1eXNxNGM/view?pli=1 
@@ -137,6 +143,9 @@
 -XX:+PrintSafepointStatistics
 -XX:PrintSafepointStatisticsCount=16
 -XX:+LogVMOutput
+
+## Уменьшает вероятность возникновения GC паузы, при работе внутренних механизмов профилирования, путем их отключения
+-XX:+PerfDisableSharedMem
 
 ##Увеличить кеш для Integer через параметр виртуальной машины 
 -XX:AutoBoxCacheMax=32768
