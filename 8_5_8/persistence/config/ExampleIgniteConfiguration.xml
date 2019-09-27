@@ -188,7 +188,7 @@ Persistent Store. -->
 <property​ ​name​=​"walSegmentSize"​ ​value​=​"#{1024*1024*1024}"​/>
 <!-- Sets property that defines behavior of wal fsync. -->
 <property​ ​name​=​"walMode"​ ​value​=​"LOG_ONLY"​/>
-<property​ ​name​=​"metricsEnabled"​ ​value​=​"True"​/>
+<property​ ​name​=​"metricsEnabled"​ ​value​=​"true"​/>
 <property​ ​name​=​"metricsRateTimeInterval"​ ​value​=​"1000"​/>
 <!-- Sets WAL buffer size. -->
 <property​ ​name​=​"walBufferSize"​ ​value​=​"5242880"​/>
