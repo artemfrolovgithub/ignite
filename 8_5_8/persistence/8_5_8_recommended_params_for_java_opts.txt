@@ -51,7 +51,6 @@
 -XX:G1HeapRegionSize=8m          
 -XX:+ScavengeBeforeFullGC
 -XX:+DisableExplicitGC 
--XX:MaxDirectMemorySize=10G
 
 -XX:+UnlockCommercialFeatures
 -XX:+UnlockDiagnosticVMOptions
