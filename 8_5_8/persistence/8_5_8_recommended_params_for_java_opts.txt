@@ -75,6 +75,8 @@
 -XX:+G1TraceEagerReclaimHumongousObjects
 
 -XX:OnOutOfMemoryError='kill -3 %p; sleep 2; kill -9 %p'
+-XX:+ExitOnOutOfMemoryError
+-XX:+HeapDumpOnOutOfMemoryError
 -XX:HeapDumpPath=/var/log/gg/gc/heap
 
 ##Essential download profile file env_profiling.jfc for full JFR https://drive.google.com/file/d/0B1vbuaA-JViuT2JHZEo1eXNxNGM/view?pli=1 
@@ -90,15 +92,4 @@
 -XX:+PrintSafepointStatistics
 -XX:PrintSafepointStatisticsCount=16
 -XX:+LogVMOutput
-
-
-
-
-
-
-
-
-
-
-
-
+-XX:+PerfDisableSharedMem
