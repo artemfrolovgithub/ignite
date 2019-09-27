@@ -91,7 +91,7 @@
 ##Вызовы System.gc() из кода или какой-либо утилиты, не будут приводить к stop-the-world паузам.
 -XX:+DisableExplicitGC 
 
-## NOT RECOMMENDED FROM 2019-09-25. Задает максимальный общий размер New I/O direct-buffer (пакет java.nio)
+## NOT RECOMMENDED FROM 2019-09-25 (8.5.8-p4). Задает максимальный общий размер New I/O direct-buffer (пакет java.nio)
 ## -XX:MaxDirectMemorySize=10G
 
 ##Сбор логов и отладочной информации.
